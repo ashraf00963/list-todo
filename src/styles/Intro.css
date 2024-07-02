@@ -1,0 +1,184 @@
+.intro-page {
+    padding: 1rem 2rem;
+    font-family: "Josefin Sans", serif;
+    background-image: url('../assets/background5.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    overflow: auto;
+}
+
+.intro-page-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.intro-page-header h1 {
+    color: #fff;
+    text-shadow: -2px 4px 4px #000;
+}
+
+.intro-register-btn {
+    font-family: "Josefin Sans", serif;
+    font-weight: 500;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    box-shadow: 4px 4px 4px #000;
+    cursor: pointer;
+    z-index: 1;
+    transition: all 0.3s;
+}
+
+.intro-register-btn:hover {
+    color: #fff;
+    background-color: #000;
+}
+
+.intro-login-btn {
+    background: transparent;
+    border: none;
+    margin-right: 1rem;
+    font-family: "Josefin Sans", serif;
+    font-size: 1rem;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.intro-login-btn:hover {
+    color: #ccc;
+}
+
+.intro-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.intro-h2 {
+    font-size: 3.5rem;
+    text-shadow: 0px 8px 4px #000;
+    margin: 0.5rem;
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.intro-p {
+    font-size: 2rem;
+    text-shadow: -1px 4px 5px #000;
+    margin-bottom: 0;
+}
+
+.intro-content-list {
+    background-color: #00000091;
+    padding: 10px 30px;
+    border-radius: 5px;
+}
+
+.intro-content-list li {
+    margin: 0.2rem;
+    text-shadow: 0px 4px 4px #000;
+}
+
+@media screen and (max-width: 800px) {
+    .intro-page-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .intro-h2 {
+        font-size: 2.8rem;
+    }
+
+    .intro-p {
+        font-size: 1.5rem;
+    }
+
+    .intro-content-list li {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 610px) {
+    .intro-page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .intro-h2 {
+        font-size: 2.2rem;
+    }
+
+    .intro-p {
+        font-size: 1.2rem;
+    }
+
+    .intro-content-list li {
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .intro-page-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .intro-h2 {
+        font-size: 1.7rem;
+    }
+
+    .intro-login-btn {
+        display: none;
+    }
+    
+    .intro-content-list {
+        padding: 0.5rem;
+        list-style: none;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .intro-page-header h1 {
+        font-size: 1.8rem;
+        margin-top: 0.5rem;
+    }
+
+    .intro-h2 {
+        font-size: 1.5rem;
+        margin-top: 0;
+    }
+
+    .intro-content-list {
+        margin: 0;
+        margin-top: 1rem;
+        padding: 0;
+        background-color: transparent;
+    }
+
+    .intro-page-header {
+        flex-direction: column;
+    }
+
+    .intro-header-btn {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .intro-login-btn {
+        display: block;
+    }
+    
+}
