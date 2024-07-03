@@ -1,0 +1,58 @@
+.dashboard {
+    padding: 2rem;
+    font-family: "Josefin Sans", serif;
+    background-image: url('../assets/background4.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 95vh;
+    overflow: auto;
+}
+
+.dashboard h1 {
+    color: #fff;
+    text-shadow: 0px 4px 4px #000;
+    margin-left: 1rem;
+    padding: 5px;
+    padding-top: 8px;
+    border-radius: 5px;
+    width: fit-content;
+    background-color: #01bbbb;
+    box-shadow: 0px 2px 5px 1px #000;
+}
+
+.lists-container {
+    background-color: #68676773;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px #000;
+}
+
+.lists-container-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lists-container h2 {
+    color: #fff;
+    text-shadow: 0px 4px 4px #000;
+}
+
+.add-list-btn {
+    font-family: "Josefin Sans", serif;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #000;
+    color: #fff;
+    box-shadow: 2px 4px 4px #000;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.add-list-btn:hover {
+    background-color: #fff;
+    color: #000;
+}

@@ -22,16 +22,32 @@ const listSlice = createSlice({
             state.error = action.payload;
             state.loading = false; 
         },
-        addList: (state, action) => {
-            state.lists.push(action.payload);
+        addListStart: (state) => {
+            state.loading = true;
         },
-        removeList: (state, action) => {
+        addListSuccess: (state, action) => {
+            state.lists.push(action.payload);
+            state.loading = false;
+        },
+        addListFailure: (state, action) => {
+            state.error = action.payload;
+            state.loading = false
+        },
+        deleteListStart: (state) => {
+            state.loading = true;
+        },
+        deleteListSuccess: (state, action) => {
             state.lists = state.lists.filter(list => list.id !== action.payload);
+            state.loading = false;
+        },
+        deleteListFailure: (state, action) => {
+            state.error = action.payload;
+            state.loading = false;
         },
     },
 });
 
-export const { fetchListsStart, fetchListsSuccess, fetchListsFailure, addList, removeList } = listSlice.actions;
+export const { fetchListsStart, fetchListsSuccess, fetchListsFailure, addListStart, addListSuccess, addListFailure, deleteListStart, deleteListSuccess, deleteListFailure } = listSlice.actions;
 
 export const fetchLists = (userId) => async (dispatch) => {
     dispatch(fetchListsStart());
@@ -42,5 +58,25 @@ export const fetchLists = (userId) => async (dispatch) => {
         dispatch(fetchListsFailure(error.message));
     }
 };
+
+export const addListAsync = (list) => async (dispatch) => {
+    dispatch(addListStart());
+    try {
+        const newList = await apiService.addList(list);
+        dispatch(addListSuccess(newList));
+    } catch (error) {
+        dispatch(addListFailure(error.message));
+    }
+};
+
+export const deleteListAsync = (listId) => async (dispatch) => {
+    dispatch(deleteListStart());
+    try {
+        await apiService.deleteList(listId);
+        dispatch(deleteListSuccess(listId));
+    } catch (error) {
+        dispatch(deleteListFailure(error.message));
+    }
+}
 
 export default listSlice.reducer;

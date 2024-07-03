@@ -19,6 +19,10 @@ const apiService = {
         const response = await axios.get(`${BASE_URL}/getTasks.php`, { params: { list_id: listId } });
         return response.data;
     },
+    addList: async (list) => {
+        const response = await axios.post(`${BASE_URL}/addList.php`, list);
+        return response.data;
+    },
     addTask: async (task) => {
         const response = await axios.post(`${BASE_URL}/addTask.php`, task);
         return response.data;
@@ -26,6 +30,9 @@ const apiService = {
     updateTask: async (task) => {
         const response = await axios.put(`${BASE_URL}/updateTask.php`, task);
         return response.data;
+    },
+    deleteList: async (listId) => {
+        await axios.delete(`${BASE_URL}/deleteList.php`, { data: { list_id: listId } });
     },
     deleteTask: async (taskId) => {
         await axios.delete(`${BASE_URL}/deleteTask.php`, { data: { task_id: taskId }});

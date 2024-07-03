@@ -7,7 +7,7 @@ import '../../styles/Auth.css';
 const Register = ({ isOpen, onClose, onLoginOpen }) => {
     const [formData, setFormData] = useState({ username: '', password: '', confirmPassword: '' });
     const dispatch = useDispatch();
-    const { loading, error } = useSelector((state) => state.auth);
+    const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
     const loginRef = useRef(null);
 
     //useEffect handling click out side to close login popup

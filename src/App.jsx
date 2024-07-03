@@ -5,6 +5,7 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Intro from './components/Intro/Intro';
 import './App.css';
+import Dashboard from './components/Dashboard/Dashboard';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<Intro />} />
+          <Route path='/dashboard' element={<Dashboard />} />
         </Routes>
       </Router>
     </Provider>
