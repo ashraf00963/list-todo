@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/slices/taskSlice";
+import { uploadAttachment } from "../../redux/slices/attachmentSlice";
 import '../../styles/CreateTask.css';
 
 const CreateTask = ({ isOpen, onClose, listId }) => {
     const [name, setName] = useState('');
     const [note, setNote] = useState('');
     const [error, setError] = useState(null);
+    const [attachment, setAttachment] = useState(null);
     const dispatch = useDispatch();
     const modalRef = useRef(null);
     const textareaRef = useRef(null);
@@ -54,18 +56,50 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
         };
     }, [isOpen, note]);
 
-    const handleSubmit = () => {
-        if (name) {
-            const newTask = { list_id: listId, name: name, status: 'Todo', note: note };
-            dispatch(addTask(newTask));  
-            onClose();
+    const handleFileChange = (e) => {
+        setAttachment(e.target.files[0]);
+    };
+
+    const handleSubmit = async () => {
+        if (!name) {
+            setError('Task name can`t be empty');
+            return;
         }
-        setError('Task name can`t be empty');
-    }
 
-    if(!isOpen) return null;
+        try {
+            const newTask = { list_id: listId, name: name, status: 'Todo', note: note };
+            const response = await dispatch(addTask(newTask)).unwrap();
+            const taskId = response.id;
 
-    return(
+            if (attachment) {
+                const formData = new FormData();
+                formData.append('file', attachment);
+                formData.append('task_id', taskId);
+
+                const res = await fetch('http://localhost/todo-app/uploadAttachment.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await res.json();
+                if (result.message !== 'File uploaded successfully') {
+                    console.error('Attachment upload failed');
+                }
+            }
+
+            setName('');
+            setNote('');
+            setAttachment(null);
+            onClose();
+        } catch (error) {
+            console.error('Error creating task:', error);
+            setError('Failed to create task');
+        }
+    };
+
+    if (!isOpen) return null;
+
+    return (
         <div className="ct-overlay">
             <div className="ct-content" ref={modalRef}>
                 <h2>Create new task</h2>
@@ -87,10 +121,14 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
                         placeholder="Notes Here"
                     />
                 </div>
+                <input
+                    type="file"
+                    onChange={handleFileChange}
+                />
                 <button onClick={handleSubmit}>Create</button>
             </div>
         </div>
-    )
+    );
 }
 
 export default CreateTask;
