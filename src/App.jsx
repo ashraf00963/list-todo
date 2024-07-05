@@ -6,19 +6,18 @@ import './App.css';
 import Dashboard from './components/Dashboard/Dashboard';
 import ToDoList from './components/ToDoList/ToDoList';
 
-
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <Routes>
           <Route path='/' element={<Intro />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/dashboard/:userId' element={<Dashboard />} />
           <Route path='/list/:listId' element={<ToDoList />} />
         </Routes>
       </Router>
     </Provider>
-  )
+  );
 }
 
-export default App
+export default App;

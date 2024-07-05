@@ -7,15 +7,15 @@ import { useNavigate } from "react-router-dom";
 const Login = ({ isOpen, onClose, onRegisterOpen }) => {
     const [credentials, setCredentials] = useState({ username: '', password: ''});
     const dispatch = useDispatch();
-    const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+    const { loading, error, isAuthenticated, user } = useSelector((state) => state.auth);
     const loginRef = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
       if(isAuthenticated) {
-        navigate('/dashboard');
+        navigate('/dashboard/${user.id}');
       }
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated, user, navigate]);
 
     useEffect(() => {
       const handleOutsideClick = (event) => {
