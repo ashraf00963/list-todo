@@ -6,7 +6,7 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (credentials, thunkAPI) => {
     try {
-      const response = await axios.post('http://localhost/todo-app/login.php', credentials);
+      const response = await axios.post('https://list-todo.com/login.php', credentials);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);
@@ -18,7 +18,7 @@ export const registerUser = createAsyncThunk(
   'auth/registerUser',
   async (userData, thunkAPI) => {
     try {
-      const response = await axios.post('http://localhost/todo-app/register.php', userData);
+      const response = await axios.post('https://list-todo.com/register.php', userData);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);

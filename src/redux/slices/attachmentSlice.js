@@ -11,7 +11,7 @@ export const uploadAttachment = createAsyncThunk('attachments/uploadAttachment',
   formData.append('file', attachment);
   formData.append('task_id', taskId);
 
-  const response = await fetch('http://localhost/todo-app/uploadAttachment.php', {
+  const response = await fetch('https://list-todo.com/uploadAttachment.php', {
     method: 'POST',
     body: formData
   });

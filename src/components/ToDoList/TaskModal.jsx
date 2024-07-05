@@ -121,7 +121,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
                         <ul>
                             {attachments.map(attachment => (
                                 <li key={attachment.id}>
-                                    <a href={`http://localhost/todo-app/${attachment.file_path}`} target="_blank" rel="noopener noreferrer">
+                                    <a href={`https://list-todo.com/${attachment.file_path}`} target="_blank" rel="noopener noreferrer">
                                         {attachment.file_path.split('/').pop()}
                                     </a>
                                     <MdDelete onClick={() => handleDeleteAttachment(attachment.id)} className='delete-icony' />

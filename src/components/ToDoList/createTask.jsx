@@ -76,7 +76,7 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
                 formData.append('file', attachment);
                 formData.append('task_id', taskId);
 
-                const res = await fetch('http://localhost/todo-app/uploadAttachment.php', {
+                const res = await fetch('https://list-todo.com/uploadAttachment.php', {
                     method: 'POST',
                     body: formData
                 });
