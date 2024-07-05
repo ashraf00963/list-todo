@@ -5,13 +5,14 @@ import ListItem from './ListItem';
 import Popup from '../UI/Popup';
 import { v4 as uuidv4 } from "uuid";
 import '../../styles/Dashboard.css';
+import { useParams } from "react-router-dom";
 
 const Dashboard = () => {
     const dispatch = useDispatch();
     const { lists, loading, error } = useSelector((state) => state.lists);
     const [isAddListPopupOpen, setIsAddListPopupOpen] = useState(false);
     const [newlistName, setNewListName] = useState('');
-    const userId = localStorage.getItem('userId');
+    const { userId } = useParams();
 
     useEffect(() => {
          dispatch(fetchLists(userId));  

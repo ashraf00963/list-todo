@@ -24,7 +24,7 @@ const ToDoList = () => {
     const error = useSelector(state => state.tasks.error);
     const [loadingDelayer, setLoadingDelayer] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const userId = localStorage.getItem('userId');
+    const { userId } = useParams();
     const dispatch = useDispatch();
     const location = useLocation();
     const { listName } = location.state || {};
