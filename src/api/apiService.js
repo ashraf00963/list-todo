@@ -15,8 +15,8 @@ const apiService = {
         const response = await axios.get(`${BASE_URL}/getLists.php`, { params: { user_id: userId} });
         return response.data;
     },
-    getTasks: async (listId) => {
-        const response = await axios.get(`${BASE_URL}/getTasks.php`, { params: { list_id: listId } });
+    getTasks: async (listId, userId) => {
+        const response = await axios.get(`${BASE_URL}/getList.php`, { params: { list_id: listId, user_id: userId } });
         return response.data;
     },
     addList: async (list) => {
@@ -27,8 +27,12 @@ const apiService = {
         const response = await axios.post(`${BASE_URL}/addTask.php`, task);
         return response.data;
     },
-    updateTask: async (task) => {
-        const response = await axios.put(`${BASE_URL}/updateTask.php`, task);
+    updateTaskNote: async (taskId, note) => {
+        const response = await axios.put(`${BASE_URL}/updateTaskNote.php`, { id: taskId, note });
+        return response.data;
+    },
+    updateTaskPositions: async (tasks) => {
+        const response = await axios.put(`${BASE_URL}/updateTaskPositions.php`, { tasks });
         return response.data;
     },
     deleteList: async (listId) => {

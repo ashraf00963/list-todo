@@ -1,0 +1,136 @@
+.container-page {
+    background-color: #405757a1;
+    padding: 1rem;
+    border-radius: 5px;
+    font-family: "Josefin Sans", serif;
+    min-height: 132px;
+    height: fit-content;
+    transition: background-color 0.3s, color 0.3s;
+    animation: borderColor1 3s linear infinite;
+    border-width: 1px;
+    border-style: solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(45deg, #b8e994, #d4efdf, #81d4fa, #ffffff, #66bb6a, #c8e6c9);
+}
+
+.container-h2 {
+    margin-top: 0.5rem;
+}
+
+.si-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem;
+    margin: 10px 0;
+    background-color: #009471;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0px 0px 4px 1px #313131;
+    font-size: 1.1rem;
+    transition: background-color 0.05s ease-in-out;
+}
+
+.si-item:hover {
+    background-color: #055241;
+}
+
+.task-name {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.checkmark {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-block;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px green;
+    animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: green;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke: white;
+    stroke-width: 2;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+.dot-typing {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.dot-typing span {
+    width: 6px;
+    height: 6px;
+    margin: 0 2px;
+    background-color: #4caf50;
+    border-radius: 50%;
+    display: inline-block;
+    animation: dotTyping 1.4s infinite ease-in-out;
+}
+
+.dot-typing span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.dot-typing span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes dotTyping {
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1);
+    }
+}
+
+@keyframes borderColor1 {
+    0% {
+        border-image-source: linear-gradient(45deg, #b8e994, #d4efdf, #81d4fa, #ffffff, #66bb6a, #c8e6c9);
+    }
+    50% {
+        border-image-source: linear-gradient(225deg, #c8e6c9, #66bb6a, #ffffff, #81d4fa, #d4efdf, #b8e994);
+    }
+    100% {
+        border-image-source: linear-gradient(45deg, #b8e994, #d4efdf, #81d4fa, #ffffff, #66bb6a, #c8e6c9);
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 30px green;
+    }
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}

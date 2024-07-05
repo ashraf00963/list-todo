@@ -1,11 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-import Login from './components/Auth/Login';
-import Register from './components/Auth/Register';
 import Intro from './components/Intro/Intro';
 import './App.css';
 import Dashboard from './components/Dashboard/Dashboard';
+import ToDoList from './components/ToDoList/ToDoList';
 
 
 function App() {
@@ -15,6 +14,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Intro />} />
           <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/list/:listId' element={<ToDoList />} />
         </Routes>
       </Router>
     </Provider>

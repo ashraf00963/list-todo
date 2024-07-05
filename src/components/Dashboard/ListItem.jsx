@@ -13,7 +13,7 @@ const ListItem = ({ list }) => {
 
     const handleNavigate = () => {
         if (!isDeletePopupOpen) {
-            navigate(`/list/${list.id}`);
+            navigate(`/list/${list.id}`, { state: { listName: list.name }});
         }
     };
 

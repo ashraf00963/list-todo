@@ -1,79 +1,120 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import apiService from '../../api/apiService';
 
-const initialState = {
+export const fetchTasks = createAsyncThunk('tasks/fetchTasks', async ({ listId, userId }) => {
+  const response = await apiService.getTasks(listId, userId);
+  return response.tasks; // Return only the tasks array
+});
+
+export const addTask = createAsyncThunk('tasks/addTask', async (task) => {
+  const response = await apiService.addTask(task);
+  return response;
+});
+
+export const updateTaskNote = createAsyncThunk('tasks/updateTaskNote', async ({ taskId, note }) => {
+  const response = await apiService.updateTaskNote(taskId, note);
+  return response;
+});
+
+export const updateTaskPosition = createAsyncThunk('tasks/updateTaskPosition', async ({ id, position }) => {
+  const task = { id, position }; // Assuming the task object structure
+  const response = await apiService.updateTask(task);
+  return response;
+});
+
+export const deleteTask = createAsyncThunk('tasks/deleteTask', async (taskId) => {
+  await apiService.deleteTask(taskId);
+  return taskId;
+});
+
+const taskSlice = createSlice({
+  name: 'tasks',
+  initialState: {
     tasks: [],
     loading: false,
     error: null,
-};
-
-const taskSlice = createSlice({
-    name: 'tasks',
-    initialState,
-    reducers: {
-        fetchTasksStart: (state) => {
-            state.loading = true;
-        },
-        fetchTasksSuccess: (state, action) => {
-            state.tasks = action.payload;
-            state.loading = false;
-        },
-        fetchTasksFailure: (state, action) => {
-            state.error = action.payload;
-            state.loading = false;
-        },
-        addTask: (state, action) => {
-            state.tasks.push(action.payload);
-        },
-        updateTask: (state, action) => {
-            const index = state.tasks.findIndex(task => task.id === action.payload.id);
-            if (index !== -1) {
-                state.tasks[index] = action.payload;
-            }
-        },
-        removeTask: (state, action) => {
-            state.tasks = state.tasks.filter(task => task.id !== action.payload);
-        },
-    },
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTasks.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchTasks.fulfilled, (state, action) => {
+        state.loading = false;
+        state.tasks = Array.isArray(action.payload) ? action.payload : [];
+      })
+      .addCase(fetchTasks.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(addTask.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addTask.fulfilled, (state, action) => {
+        state.loading = false;
+        if (Array.isArray(state.tasks)) {
+          state.tasks.push(action.payload);
+        } else {
+          state.tasks = [action.payload];
+        }
+      })
+      .addCase(addTask.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateTaskNote.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateTaskNote.fulfilled, (state, action) => {
+        state.loading = false;
+        if (Array.isArray(state.tasks)) {
+          const index = state.tasks.findIndex(task => task.id === action.payload.id);
+          if (index !== -1) {
+            state.tasks[index] = { ...state.tasks[index], ...action.payload };
+          }
+        } else {
+          state.tasks = []; // Reset to an empty array to prevent further errors
+        }
+      })
+      .addCase(updateTaskNote.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateTaskPosition.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateTaskPosition.fulfilled, (state, action) => {
+        state.loading = false;
+        if (Array.isArray(state.tasks)) {
+          const index = state.tasks.findIndex(task => task.id === action.payload.id);
+          if (index !== -1) {
+            state.tasks[index].position = action.payload.position;
+          }
+        } else {
+          state.tasks = []; // Reset to an empty array to prevent further errors
+        }
+      })
+      .addCase(updateTaskPosition.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteTask.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        state.loading = false;
+        if (Array.isArray(state.tasks)) {
+          state.tasks = state.tasks.filter(task => task.id !== action.payload);
+        } else {
+          state.tasks = []; // Reset to an empty array to prevent further errors
+        }
+      })
+      .addCase(deleteTask.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+  },
 });
-
-export const { fetchTasksStart, fetchTasksSuccess, fetchTasksFailure, addTask, updateTask, removeTask } = taskSlice.actions;
-
-export const fetchTasks = (listId) => async (dispatch) => {
-    dispatch(fetchTasksStart());
-    try {
-        const tasks = await apiService.getTasks(listId);
-        dispatch(fetchTasksSuccess(tasks));
-    } catch (error) {
-        dispatch(fetchTasksFailure(error.message));
-    }
-};
-
-export const createTask = (task) => async (dispatch) => {
-    try {
-        const newTask = await apiService.addTask(task);
-        dispatch(addTask(newTask));
-    } catch (error) {
-        dispatch(fetchTasksFailure(error.message));
-    }
-};
-
-export const editTask = (task) => async (dispatch) => {
-    try {
-        const updatedTask = await apiService.updateTask(task);
-        dispatch(updateTask(updatedTask));
-    } catch (error) {
-        dispatch(fetchTasksFailure(error.message));
-    }
-};
-
-export const deleteTask = (taskId) => async (dispatch) => {
-    try {
-        await apiService.deleteTask(taskId);
-        dispatch(removeTask(taskId));
-    } catch (error) {
-        dispatch(fetchTasksFailure(error.message));
-    }
-};
 
 export default taskSlice.reducer;
