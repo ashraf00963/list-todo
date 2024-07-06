@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/slices/taskSlice";
 import { uploadAttachment } from "../../redux/slices/attachmentSlice";
+import { v4 as uuidv4 } from 'uuid';
 import '../../styles/CreateTask.css';
 
 const CreateTask = ({ isOpen, onClose, listId }) => {
@@ -65,28 +66,36 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
             setError('Task name can`t be empty');
             return;
         }
-
+    
+        // Generate a unique task ID
+        const taskId = uuidv4();
+    
+        // Initialize the new task object
+        const newTask = { id: taskId, list_id: listId, name: name, status: 'Todo', note: note };
+    
         try {
-            const newTask = { list_id: listId, name: name, status: 'Todo', note: note };
-            const response = await dispatch(addTask(newTask)).unwrap();
-            const taskId = response.id;
-
+            // Handle attachment upload first if there is an attachment
             if (attachment) {
                 const formData = new FormData();
                 formData.append('file', attachment);
                 formData.append('task_id', taskId);
-
+    
                 const res = await fetch('https://list-todo.com/uploadAttachment.php', {
                     method: 'POST',
                     body: formData
                 });
-
+    
                 const result = await res.json();
                 if (result.message !== 'File uploaded successfully') {
                     console.error('Attachment upload failed');
+                    setError(result.message || 'Failed to upload attachment');
+                    return;
                 }
             }
-
+    
+            // If attachment upload is successful or no attachment, proceed to create the task
+            const response = await dispatch(addTask(newTask)).unwrap();
+    
             setName('');
             setNote('');
             setAttachment(null);
@@ -123,6 +132,7 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
                 </div>
                 <input
                     type="file"
+                    className="attach-upload-input"
                     onChange={handleFileChange}
                 />
                 <button onClick={handleSubmit}>Create</button>

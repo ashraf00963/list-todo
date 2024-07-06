@@ -2,11 +2,16 @@ import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTaskNote, deleteTask } from "../../redux/slices/taskSlice";
 import { MdModeEdit, MdDelete } from "react-icons/md";
-import { fetchAttachments, deleteAttachment } from "../../redux/slices/attachmentSlice";
+import { fetchAttachments, deleteAttachment, uploadAttachment } from "../../redux/slices/attachmentSlice";
+
 
 const TaskModal = ({ task, isOpen, onClose }) => {
     const [editMode, setEditMode] = useState(false);
     const [editNote, setEditNote] = useState('');
+    const [attachment, setAttachment] = useState(null); // New state for managing attachment
+    const [uploadError, setUploadError] = useState(null);
+    const [fetchError, setFetchError] = useState(null);
+    const [uploadMode, setUploadMode] = useState(false);
     const dispatch = useDispatch();
     const taskId = task.id;
     const modalRef = useRef();
@@ -36,7 +41,9 @@ const TaskModal = ({ task, isOpen, onClose }) => {
     useEffect(() => {
         setEditNote(task.note);
         if (isOpen) {
-            dispatch(fetchAttachments(task.id));
+            dispatch(fetchAttachments(task.id))
+                .unwrap()
+                .catch((err) => setFetchError(err.message));
         }
     }, [task, isOpen, dispatch]);
 
@@ -52,7 +59,6 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 
         dispatch(updateTaskNote({ taskId, note: editNote }));
         setEditMode(false);
-        onClose();
     };
 
     const handleDeleteClick = () => {
@@ -65,9 +71,48 @@ const TaskModal = ({ task, isOpen, onClose }) => {
     };
 
     const handleDeleteAttachment = (attachmentId) => {
-        dispatch(deleteAttachment(attachmentId)); // Sending just the number as the payload
+        dispatch(deleteAttachment(attachmentId))
+            .unwrap()
+            .then(() => {
+                dispatch(fetchAttachments(task.id))
+                    .unwrap()
+                    .catch((err) => setFetchError(err.message));
+            })
+            .catch((err) => setUploadError(err.message));
+    };    
+
+    const handleFileChange = (e) => {
+        setAttachment(e.target.files[0]);
     };
-    
+
+    const handleUploadAttachment = async () => {
+        if (attachment) {
+            const formData = new FormData();
+            formData.append('file', attachment);
+            formData.append('task_id', taskId);
+            try {
+                const res = await fetch('https://list-todo.com/uploadAttachment.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await res.json();
+                if (result.message === 'File uploaded successfully') {
+                    dispatch(fetchAttachments(task.id));
+                    setAttachment(null);
+                    setUploadError(null);
+                    setFetchError(null);
+                    setEditMode(false);
+                } else {
+                    throw new Error(result.message || 'Attachment upload failed');
+                }
+            } catch (error) {
+                setUploadError(error.message);
+            }
+        }
+        
+    };
+
     useEffect(() => {
         const updateLineNumbers = () => {
             const lines = editNote.split('\n').length;
@@ -97,16 +142,37 @@ const TaskModal = ({ task, isOpen, onClose }) => {
         <div className="ct-overlay">
             <div className="ct-content" ref={modalRef}>
                 <h2>{task.name}</h2>
+                {fetchError && <p>{fetchError}</p>}
                 {editMode ? (
-                    <div className="textarea-container">
-                        <div className="line-numbers" ref={lineNumbersRef}></div>
-                        <textarea
-                            ref={textareaRef}
-                            value={editNote}
-                            onChange={(e) => setEditNote(e.target.value)}
-                            placeholder="Notes Here"
-                        />
-                    </div>
+                    <>
+                        <div className="textarea-container">
+                            <div className="line-numbers" ref={lineNumbersRef}></div>
+                            <textarea
+                                ref={textareaRef}
+                                value={editNote}
+                                onChange={(e) => setEditNote(e.target.value)}
+                                placeholder="Notes Here"
+                            />
+
+                        </div>
+                        
+                        {uploadMode ? 
+                        (
+                            <>
+                                {uploadError && <p>{uploadError}</p>}
+                                <div className='attach-tm'>
+
+                                    <input
+                                        type="file"
+                                        onChange={handleFileChange}
+                                    />
+                                    <button onClick={handleUploadAttachment}>Upload Attachment</button>
+                                </div>
+                            </>
+                        ) : (
+                            <button onClick={() => setUploadMode(true)}>edit attachments</button>
+                        )} 
+                    </>
                 ) : (
                     <textarea 
                         value={task.note}
@@ -114,7 +180,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
                         placeholder='No notes available'
                     />
                 )}
-                {attachments?.length > 0 && (
+                {attachments?.length > 0 && !editMode && (
                     <div className="attachments">
                         <h3>Attachments</h3>
                         {error && <p>{error}</p>}

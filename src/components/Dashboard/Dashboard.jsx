@@ -13,14 +13,17 @@ const Dashboard = () => {
     const [isAddListPopupOpen, setIsAddListPopupOpen] = useState(false);
     const [newlistName, setNewListName] = useState('');
     const { userId } = useParams();
-
+    
     useEffect(() => {
-         dispatch(fetchLists(userId));  
+        if (userId) {
+            dispatch(fetchLists(userId)); // Pass userId as payload
+        }
     }, [dispatch, userId]);
 
     const handleAddList = () => {
         const listId = uuidv4();
         dispatch(addListAsync({ user_id: userId, list_id: listId, name: newlistName }));
+        console.log(userId)
         setIsAddListPopupOpen(false);
         setNewListName('');
     };
@@ -36,7 +39,7 @@ const Dashboard = () => {
                     <button className="add-list-btn" onClick={() => setIsAddListPopupOpen(true)}>Create New List</button>
                 </div>
                 {lists.map((list) => (
-                    <ListItem key={list.id} list={list} />
+                    <ListItem key={list.id} list={list} userId={userId} />
                 ))}
             </div>
             {isAddListPopupOpen && (

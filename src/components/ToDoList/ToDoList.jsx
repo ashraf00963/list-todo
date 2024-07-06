@@ -24,10 +24,9 @@ const ToDoList = () => {
     const error = useSelector(state => state.tasks.error);
     const [loadingDelayer, setLoadingDelayer] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const { userId } = useParams();
     const dispatch = useDispatch();
     const location = useLocation();
-    const { listName } = location.state || {};
+    const { listName, userId } = location.state || {};
 
     const dragActivationDistance = 10;
 

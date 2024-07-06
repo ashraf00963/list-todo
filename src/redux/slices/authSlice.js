@@ -9,7 +9,7 @@ export const loginUser = createAsyncThunk(
       const response = await axios.post('https://list-todo.com/login.php', credentials);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data.message || 'Login failed');
     }
   }
 );
@@ -21,7 +21,7 @@ export const registerUser = createAsyncThunk(
       const response = await axios.post('https://list-todo.com/register.php', userData);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response.data.message || 'Register failed');
     }
   }
 );

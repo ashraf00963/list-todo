@@ -13,7 +13,7 @@ const Login = ({ isOpen, onClose, onRegisterOpen }) => {
 
     useEffect(() => {
       if(isAuthenticated) {
-        navigate('/dashboard/${user.id}');
+        navigate(`/dashboard/${user.id}`);
       }
     }, [isAuthenticated, user, navigate]);
 

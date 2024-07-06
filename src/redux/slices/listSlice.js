@@ -20,7 +20,7 @@ const listSlice = createSlice({
         },
         fetchListsFailure: (state, action) => {
             state.error = action.payload;
-            state.loading = false; 
+            state.loading = false;
         },
         addListStart: (state) => {
             state.loading = true;
@@ -31,7 +31,7 @@ const listSlice = createSlice({
         },
         addListFailure: (state, action) => {
             state.error = action.payload;
-            state.loading = false
+            state.loading = false;
         },
         deleteListStart: (state) => {
             state.loading = true;

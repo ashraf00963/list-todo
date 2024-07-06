@@ -114,6 +114,16 @@ textarea {
     border-image-source: linear-gradient(45deg, #ff6ec4, #7873f5, #4adeff, #21bdbf, #ff6ec4, #7873f5);
 }
 
+.ct-content p {
+    font-size: 0.8rem;
+    margin: 0;
+    margin-bottom: -0.5rem;
+    color: #ff3c00;
+    text-shadow: 0px 1px #000;
+    font-weight: 500;
+    text-align: center;
+}
+
 .ct-content button:hover {
     background-color: #fff;
     color: #000;
@@ -152,6 +162,71 @@ textarea {
 .delete-icones:hover,
 .edit-icones:hover {
     box-shadow: none;
+}
+
+.attach-tm {
+    display: flex;
+}
+
+.attach-tm input {
+    border: none;
+    background-color: transparent;
+}
+
+.attach-upload-input {
+    border: none !important;
+    background-color: transparent !important;
+}
+
+.attach-tm button {
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+    color: #afddf8;
+    transition: color 0.2s;
+}
+
+.attach-tm button:hover {
+    color: #4adeff;
+    background-color: transparent;
+}
+
+.attachments h3 {
+    margin: 0.2rem 0;
+}
+
+.attachments ul {
+    padding: 0 1rem;
+    margin: 0.8rem 0;
+    list-style:decimal;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.attachments li {
+    display: flex;
+    justify-content: space-between;
+}
+
+.attachments li a {
+    color: #00ffc8;
+    font-size: 0.8rem;
+    justify-self: end;
+}
+
+.attachments a:hover {
+    color: #0ab38e;
+}
+
+.delete-icony {
+    margin-right: 1rem;
+    color: #7873f5;
+    cursor: pointer;
+}
+
+.delete-icony:hover {
+    color: #403afa;
 }
 
 @keyframes borderColor {

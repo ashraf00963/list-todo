@@ -6,14 +6,14 @@ import Popup from '../UI/Popup';
 import { FaTrashCan } from "react-icons/fa6";
 import '../../styles/ListItem.css';
 
-const ListItem = ({ list }) => {
+const ListItem = ({ list, userId }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
 
     const handleNavigate = () => {
         if (!isDeletePopupOpen) {
-            navigate(`/list/${list.id}`, { state: { listName: list.name }});
+            navigate(`/list/${list.id}`, { state: { listName: list.name, userId: userId }});
         }
     };
 
