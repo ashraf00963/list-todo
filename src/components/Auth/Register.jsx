@@ -6,8 +6,9 @@ import '../../styles/Auth.css';
 
 const Register = ({ isOpen, onClose, onLoginOpen }) => {
     const [formData, setFormData] = useState({ username: '', password: '', confirmPassword: '' });
+    const [registrationSuccess, setRegistrationSuccess] = useState(false);
     const dispatch = useDispatch();
-    const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+    const { loading, error } = useSelector((state) => state.auth);
     const loginRef = useRef(null);
 
     //useEffect handling click out side to close login popup
@@ -38,14 +39,19 @@ const Register = ({ isOpen, onClose, onLoginOpen }) => {
       setFormData({ ...formData, password });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if(formData.password !== formData.confirmPassword) {
             alert('Passwords do not match');
             return;
         }
         const { confirmPassword, ...registrationData } = formData;
-        dispatch(registerUser(registrationData));
+        const resultAction = await dispatch(registerUser(registrationData));
+        if (registerUser.fulfilled.match(resultAction)) {
+            alert('Registered successfully');
+            onClose();
+            onLoginOpen();
+        }
     };
 
     return (
