@@ -1,6 +1,6 @@
 .TDL-page {
     font-family: "Josefin Sans", serif;
-    background-image: url('../assets/background6.jpg');
+    background-image: url('../assets/background7.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -81,4 +81,21 @@
     100% {
         border-image-source: linear-gradient(45deg, #ff6ec4, #7873f5, #4adeff, #21bdbf, #ff6ec4, #7873f5);
     }
-  }
+}
+
+@media screen and (max-width: 620px) {
+    .TDL-func {
+        flex-direction: column;
+    }
+    .create-task-btn {
+        margin: 0.5rem 0;
+        border-width: 2px;
+        align-self: center;
+        width: 95%;
+    }
+
+    .TDL-dnd {
+        display: flex;
+        flex-direction: column;
+    }
+}

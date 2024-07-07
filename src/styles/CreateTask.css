@@ -230,6 +230,10 @@ textarea {
     color: #403afa;
 }
 
+.close-btn {
+    display: none;
+}
+
 @keyframes borderColor {
     0% {
         border-image-source: linear-gradient(45deg, #ff6ec4, #7873f5, #4adeff, #21bdbf, #ff6ec4, #7873f5);
@@ -245,5 +249,31 @@ textarea {
     }
     100% {
         border-image-source: linear-gradient(45deg, #ff6ec4, #7873f5, #4adeff, #21bdbf, #ff6ec4, #7873f5);
+    }
+}
+
+
+@media screen and (max-width: 500px) {
+    .ct-content {
+       width: 90%;
+       height: 100%;
+       margin: 0;
+       padding: 1rem;
+       padding-top: 2rem;
+    }
+
+    .ct-content h2 {
+        margin-top: 2rem;
+    }
+
+    .close-btn {
+        display: block;
+        background-color: transparent !important;
+        border: none !important;
+        position: absolute;
+        right: 5%;
+        top: 4%;
+        font-size: 1.2rem;
+        font-weight: 900;
     }
 }

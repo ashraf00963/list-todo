@@ -142,6 +142,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
         <div className="ct-overlay">
             <div className="ct-content" ref={modalRef}>
                 <h2>{task.name}</h2>
+                <button onClick={onClose} className="close-btn">X</button>
                 {fetchError && <p>{fetchError}</p>}
                 {editMode ? (
                     <>

@@ -27,3 +27,12 @@
 .list-item:hover .delete-icon {
     display: block;
 }
+
+@media screen and (max-width: 500px) {
+    .list-item {
+        padding: 15px;
+    }
+    .delete-icon {
+        display: block;
+    }
+}

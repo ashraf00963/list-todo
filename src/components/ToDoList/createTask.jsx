@@ -109,6 +109,7 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
         <div className="ct-overlay">
             <div className="ct-content" ref={modalRef}>
                 <h2>Create new task</h2>
+                <button onClick={onClose} className="close-btn">X</button>
                 {error && <p className="task-error">{error}</p>}
                 <input
                     type="text"
