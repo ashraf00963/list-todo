@@ -5,7 +5,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    height: 100vh;
+    height: 97vh;
     overflow: auto;
 }
 
@@ -13,6 +13,7 @@
     color: #fff;
     text-shadow: 0px 4px 4px #000;
     margin-left: 1rem;
+    margin-top: 0;
     padding: 5px;
     padding-top: 8px;
     border-radius: 5px;
@@ -50,6 +51,7 @@
     box-shadow: 2px 4px 4px #000;
     cursor: pointer;
     transition: all 0.3s;
+    border: 1px solid #9c0001;
 }
 
 .add-list-btn:hover {
@@ -60,7 +62,7 @@
 
 @media screen and (max-width: 500px) {
     .dashboard {
-        padding: 10px;
+        padding: 1rem 10px;
     }
 
     .dashboard h1 {
