@@ -23,7 +23,6 @@ const Dashboard = () => {
     const handleAddList = () => {
         const listId = uuidv4();
         dispatch(addListAsync({ user_id: userId, list_id: listId, name: newlistName }));
-        console.log(userId)
         setIsAddListPopupOpen(false);
         setNewListName('');
     };
@@ -47,6 +46,7 @@ const Dashboard = () => {
                     <h2>Add New List</h2>
                     <input
                         type="text"
+                        name="List Name"
                         placeholder="List Name"
                         value={newlistName}
                         onChange={(e) => setNewListName(e.target.value)}

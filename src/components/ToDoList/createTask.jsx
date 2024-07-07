@@ -1,8 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/slices/taskSlice";
-import { uploadAttachment } from "../../redux/slices/attachmentSlice";
-import { v4 as uuidv4 } from 'uuid';
 import '../../styles/CreateTask.css';
 
 const CreateTask = ({ isOpen, onClose, listId }) => {
@@ -67,14 +65,15 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
             return;
         }
     
-        // Generate a unique task ID
-        const taskId = uuidv4();
-    
         // Initialize the new task object
-        const newTask = { id: taskId, list_id: listId, name: name, status: 'Todo', note: note };
+        const newTask = { list_id: listId, name: name, status: 'Todo', note: note };
     
         try {
-            // Handle attachment upload first if there is an attachment
+            // Create the task first
+            const response = await dispatch(addTask(newTask)).unwrap();
+            const taskId = response.id;
+
+            // Handle attachment upload if there is an attachment
             if (attachment) {
                 const formData = new FormData();
                 formData.append('file', attachment);
@@ -93,9 +92,7 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
                 }
             }
     
-            // If attachment upload is successful or no attachment, proceed to create the task
-            const response = await dispatch(addTask(newTask)).unwrap();
-    
+            // If attachment upload is successful or no attachment, reset form
             setName('');
             setNote('');
             setAttachment(null);

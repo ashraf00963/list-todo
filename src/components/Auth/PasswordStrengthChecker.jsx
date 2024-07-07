@@ -26,6 +26,7 @@ function PasswordStrengthChecker({ password, setPassword }) {
         <div className="password-strength-checker">
             <input
                 type="password"
+                name="password"
                 value={password}
                 onChange={handlePasswordChange}
                 placeholder="Enter your password"
