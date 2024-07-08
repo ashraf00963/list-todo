@@ -6,6 +6,7 @@ import Popup from '../UI/Popup';
 import { v4 as uuidv4 } from "uuid";
 import '../../styles/Dashboard.css';
 import { useParams } from "react-router-dom";
+import Loading from "../UI/Loading";
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -29,9 +30,9 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard">
+            {error && <p style={{ color: '#ff9900'}}>Error: {error}</p>}
             <h1>Dashboard</h1>
-            {loading && <p>Loading...</p>}
-            {error && <p>Error: {error}</p>}
+            {loading && <Loading />}
             <div className="lists-container">
                 <div className="lists-container-header">
                     <h2>My Lists</h2>

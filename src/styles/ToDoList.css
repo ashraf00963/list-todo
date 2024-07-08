@@ -1,6 +1,6 @@
 .TDL-page {
     font-family: "Josefin Sans", serif;
-    background-image: url('../assets/background7.jpg');
+    background-image: url('../assets/background8.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
@@ -17,7 +17,9 @@
 }
 
 .TDL-header h1 {
-    font-size: 2.2rem;
+    color: #ffffff;
+    text-shadow: 1px 1px 20px #fa04d1;
+    font-size: 2rem;
     align-self: center;
     width: fit-content;
     padding: 10px;
@@ -37,15 +39,13 @@
     align-self: flex-end;
     margin-left: 1rem;
     padding: 12px 20px;
-    border: 1px solid #fff;
-    border-radius: 5px;
     font-family: "Josefin Sans", serif;
-    background-color: #000;
+    background-color: #001747;
     color: #fff;
-    cursor: pointer;
+    cursor: pointer; 
     transition: background-color 0.3s, color 0.3s;
     animation: borderColor 3s linear infinite;
-    border-width: 1px;
+    border-width: 2px;
     border-style: solid;
     border-image-slice: 1;
     border-image-source: linear-gradient(45deg, #ff6ec4, #7873f5, #4adeff, #21bdbf, #ff6ec4, #7873f5);

@@ -9,10 +9,11 @@
     justify-content: center;
     align-items: center;
     height: 110vh;
+    z-index: 1000;
 }
 
 .ct-content {
-    background: #055241;
+    background: #000000;
     color: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -29,6 +30,7 @@
 .ct-content h2 {
     margin-bottom: 0.8rem;
     margin-top: 0.5rem;
+    text-align: center;
 }
 
 .task-error {
@@ -41,7 +43,7 @@
 
 .ct-content input {
     font-family: "Josefin Sans", serif; 
-    background-color: #000;
+    background-color: #1f4652;
     color: #fff;
     padding: 10px 20px;
     transition: background-color 0.3s, color 0.3s;
@@ -57,7 +59,8 @@
     position: relative;
     width: 100%;
     max-width: 600px;
-    margin: 0px auto;
+    margin: 0 auto;
+    display: flex;
 }
 
 textarea {
@@ -77,6 +80,7 @@ textarea {
     background-attachment: local;
     background-origin: content-box;
     outline: none;
+    overflow-y: scroll;
 }
 
 .line-numbers {
@@ -93,6 +97,7 @@ textarea {
     color: #999999;
     pointer-events: none;
     user-select: none;
+    overflow-y: hidden; /* Ensure the line numbers container doesn't scroll independently */
 }
 
 .line-numbers span {
@@ -100,11 +105,10 @@ textarea {
     padding-right: 5px;
 }
 
-
 .ct-content button {
     padding: 10px;
     font-family: "Josefin Sans", serif; 
-    background-color: #000;
+    background-color: #000000;
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
@@ -199,7 +203,7 @@ textarea {
 .attachments ul {
     padding: 0 1rem;
     margin: 0.8rem 0;
-    list-style:decimal;
+    list-style: decimal;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -251,7 +255,6 @@ textarea {
         border-image-source: linear-gradient(45deg, #ff6ec4, #7873f5, #4adeff, #21bdbf, #ff6ec4, #7873f5);
     }
 }
-
 
 @media screen and (max-width: 500px) {
     .ct-content {
