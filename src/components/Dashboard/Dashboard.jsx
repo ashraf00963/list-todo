@@ -13,6 +13,7 @@ const Dashboard = () => {
     const { lists, loading, error } = useSelector((state) => state.lists);
     const [isAddListPopupOpen, setIsAddListPopupOpen] = useState(false);
     const [newlistName, setNewListName] = useState('');
+    const [req, setReq] = useState(false);
     const { userId } = useParams();
     
     useEffect(() => {
@@ -22,10 +23,15 @@ const Dashboard = () => {
     }, [dispatch, userId]);
 
     const handleAddList = () => {
+        if (!newlistName){
+            setReq(true);
+            return;
+        }
         const listId = uuidv4();
         dispatch(addListAsync({ user_id: userId, list_id: listId, name: newlistName }));
         setIsAddListPopupOpen(false);
         setNewListName('');
+        setReq(false);
     };
 
     return (
@@ -48,7 +54,7 @@ const Dashboard = () => {
                     <input
                         type="text"
                         name="List Name"
-                        placeholder="List Name"
+                        placeholder={req ? 'List Name Required*' : 'List Name'}
                         value={newlistName}
                         onChange={(e) => setNewListName(e.target.value)}
                         maxLength={30}
