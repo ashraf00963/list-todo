@@ -1,22 +1,23 @@
 import { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTaskNote, deleteTask } from "../../redux/slices/taskSlice";
-import { MdModeEdit, MdDelete } from "react-icons/md";
-import { fetchAttachments, deleteAttachment, uploadAttachment } from "../../redux/slices/attachmentSlice";
+import { fetchAttachments, uploadAttachment } from "../../redux/slices/attachmentSlice";
+import AttachmentList from "./AttachmentList";
+import EditNote from "./EditNote";
+import TaskActions from "./TaskActions";
+import '../../styles/TaskModal.css';
 
-
-const TaskModal = ({ task, isOpen, onClose }) => {
+const TaskModal = ({ task, isOpen, onClose, setSuccessMessage }) => {
     const [editMode, setEditMode] = useState(false);
     const [editNote, setEditNote] = useState('');
-    const [attachment, setAttachment] = useState(null); // New state for managing attachment
+    const [attachment, setAttachment] = useState(null);
     const [uploadError, setUploadError] = useState(null);
     const [fetchError, setFetchError] = useState(null);
     const [uploadMode, setUploadMode] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const taskId = task.id;
     const modalRef = useRef();
-    const textareaRef = useRef(null);
-    const lineNumbersRef = useRef(null);
     const attachmentsState = useSelector(state => state.attachments);
     const { attachments, loading, error } = attachmentsState;
 
@@ -57,29 +58,31 @@ const TaskModal = ({ task, isOpen, onClose }) => {
             return;
         }
 
-        dispatch(updateTaskNote({ taskId, note: editNote }));
-        setEditMode(false);
+        setIsLoading(true);
+        dispatch(updateTaskNote({ taskId, note: editNote }))
+            .unwrap()
+            .then(() => {
+                setEditMode(false);
+                setIsLoading(false);
+                setSuccessMessage(`Task "${task.name}" updated successfully.`);
+                onClose();
+            })
+            .catch((err) => {
+                setIsLoading(false);
+                setFetchError('Failed to update task note');
+            });
     };
 
     const handleDeleteClick = () => {
         if (attachments.length === 0) {
-            dispatch(deleteTask(taskId));
-            onClose();
+            dispatch(deleteTask(taskId))
+                .unwrap()
+                .then(onClose)
+                .catch((err) => setFetchError('Failed to delete task'));
         } else {
             alert('You must delete all attachments before deleting the task.');
         }
     };
-
-    const handleDeleteAttachment = (attachmentId) => {
-        dispatch(deleteAttachment(attachmentId))
-            .unwrap()
-            .then(() => {
-                dispatch(fetchAttachments(task.id))
-                    .unwrap()
-                    .catch((err) => setFetchError(err.message));
-            })
-            .catch((err) => setUploadError(err.message));
-    };    
 
     const handleFileChange = (e) => {
         setAttachment(e.target.files[0]);
@@ -90,6 +93,7 @@ const TaskModal = ({ task, isOpen, onClose }) => {
             const formData = new FormData();
             formData.append('file', attachment);
             formData.append('task_id', taskId);
+            setIsLoading(true);
             try {
                 const res = await fetch('https://list-todo.com/uploadAttachment.php', {
                     method: 'POST',
@@ -98,81 +102,57 @@ const TaskModal = ({ task, isOpen, onClose }) => {
 
                 const result = await res.json();
                 if (result.message === 'File uploaded successfully') {
-                    dispatch(fetchAttachments(task.id));
-                    setAttachment(null);
-                    setUploadError(null);
-                    setFetchError(null);
-                    setEditMode(false);
+                    dispatch(fetchAttachments(task.id))
+                        .unwrap()
+                        .then(() => {
+                            setAttachment(null);
+                            setUploadError(null);
+                            setFetchError(null);
+                            setUploadMode(false);
+                            setIsLoading(false);
+                            setSuccessMessage('Attachment uploaded successfully.');
+                        })
+                        .catch((err) => {
+                            setFetchError(err.message);
+                            setIsLoading(false);
+                        });
                 } else {
                     throw new Error(result.message || 'Attachment upload failed');
                 }
             } catch (error) {
                 setUploadError(error.message);
+                setIsLoading(false);
             }
         }
-        
     };
-
-    useEffect(() => {
-        const updateLineNumbers = () => {
-            const lines = editNote.split('\n').length;
-            lineNumbersRef.current.innerHTML = Array(lines).fill(0).map((_, i) => `<span>${i + 1}</span>`).join('');
-        };
-
-        if (isOpen && textareaRef.current) {
-            const textarea = textareaRef.current;
-            textarea.addEventListener('input', updateLineNumbers);
-            textarea.addEventListener('scroll', () => {
-                lineNumbersRef.current.scrollTop = textarea.scrollTop;
-            });
-            updateLineNumbers(); // Initialize line numbers
-        }
-
-        return () => {
-            if (textareaRef.current) {
-                const textarea = textareaRef.current;
-                textarea.removeEventListener('input', updateLineNumbers);
-            }
-        };
-    }, [isOpen, editNote]);
 
     if (!isOpen) return null;
 
     return (
-        <div className="ct-overlay">
-            <div className="ct-content" ref={modalRef}>
+        <div className="tm-overlay">
+            <div className="tm-content" ref={modalRef}>
                 <h2>{task.name}</h2>
                 <button onClick={onClose} className="close-btn">X</button>
-                {fetchError && <p>{fetchError}</p>}
+                {fetchError && <p className="error-message">{fetchError}</p>}
                 {editMode ? (
                     <>
-                        <div className="textarea-container">
-                            <div className="line-numbers" ref={lineNumbersRef}></div>
-                            <textarea
-                                ref={textareaRef}
-                                value={editNote}
-                                onChange={(e) => setEditNote(e.target.value)}
-                                placeholder="Notes Here"
-                            />
-
-                        </div>
-                        
-                        {uploadMode ? 
-                        (
+                        <EditNote isOpen={isOpen} editNote={editNote} setEditNote={setEditNote} />
+                        {uploadMode ? (
                             <>
-                                {uploadError && <p>{uploadError}</p>}
+                                {uploadError && <p className="error-message">{uploadError}</p>}
                                 <div className='attach-tm'>
-
                                     <input
                                         type="file"
                                         onChange={handleFileChange}
                                     />
-                                    <button onClick={handleUploadAttachment}>Upload Attachment</button>
+                                    <button onClick={handleUploadAttachment} disabled={isLoading}>
+                                        {isLoading ? 'Uploading...' : 'Upload Attachment'}
+                                    </button>
                                 </div>
                             </>
                         ) : (
-                            <button onClick={() => setUploadMode(true)}>edit attachments</button>
-                        )} 
+                            <button onClick={() => setUploadMode(true)}>Upload Attachments</button>
+                        )}
                     </>
                 ) : (
                     <textarea 
@@ -182,33 +162,21 @@ const TaskModal = ({ task, isOpen, onClose }) => {
                     />
                 )}
                 {attachments?.length > 0 && !editMode && (
-                    <div className="attachments">
-                        <h3>Attachments</h3>
-                        {error && <p>{error}</p>}
-                        <ul>
-                            {attachments.map(attachment => (
-                                <li key={attachment.id}>
-                                    <a href={`https://list-todo.com/${attachment.file_path}`} target="_blank" rel="noopener noreferrer">
-                                        {attachment.file_path.split('/').pop()}
-                                    </a>
-                                    <MdDelete onClick={() => handleDeleteAttachment(attachment.id)} className='delete-icony' />
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-                <div className="tk-btns">
-                    <MdDelete 
-                        onClick={handleDeleteClick} 
-                        className='delete-icones' 
-                        style={{ color: attachments.length > 0 ? 'gray' : 'red', cursor: attachments.length > 0 ? 'not-allowed' : 'pointer' }} 
+                    <AttachmentList
+                        taskId={taskId}
+                        attachments={attachments}
+                        setFetchError={setFetchError}
+                        setUploadError={setUploadError}
                     />
-                    {editMode ? (
-                        <button className="tk-up-btn" onClick={handleUpdateClick}>Update</button>
-                    ) : (
-                        <MdModeEdit onClick={handleEditClick} className='edit-icones' />
-                    )}
-                </div>
+                )}
+                <TaskActions
+                    editMode={editMode}
+                    handleDeleteClick={handleDeleteClick}
+                    handleEditClick={handleEditClick}
+                    handleUpdateClick={handleUpdateClick}
+                    isLoading={isLoading}
+                    attachments={attachments}
+                />
             </div>
         </div>
     );

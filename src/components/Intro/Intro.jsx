@@ -1,25 +1,28 @@
 import { useState } from "react";
 import Login from "../Auth/Login";
 import Register from "../Auth/Register";
+import SuccessMessage from "../utils/SuccessMessage";
 import '../../styles/Intro.css';
 
 function Intro() {
     const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
     const [isRegisterPopupOpen, setIsRegisterPopupOpen] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
 
     // funcs to handle which popup is open
     const handleLoginPopup = () => {
         setIsLoginPopupOpen(true);
         setIsRegisterPopupOpen(false);
-    } 
+    };
 
     const handleRegisterPopup = () => {
         setIsRegisterPopupOpen(true);
         setIsLoginPopupOpen(false);
-    }
+    };
 
     return (
         <div className='intro-page'>
+            {successMessage && <SuccessMessage message={successMessage} clearMessage={() => setSuccessMessage('')} />}
             <div className='intro-page-header'>
                 <h1>To-Do List</h1>
                 <div className='intro-header-btn'>
@@ -39,11 +42,13 @@ function Intro() {
                     isOpen={isLoginPopupOpen}
                     onClose={() => setIsLoginPopupOpen(false)}
                     onRegisterOpen={handleRegisterPopup}
+                    setSuccessMessage={setSuccessMessage} // Pass the handler
                 />
                 <Register
                     isOpen={isRegisterPopupOpen}
                     onClose={() => setIsRegisterPopupOpen(false)}
                     onLoginOpen={handleLoginPopup}
+                    setSuccessMessage={setSuccessMessage} // Pass the handler
                 />
             </div>
         </div>

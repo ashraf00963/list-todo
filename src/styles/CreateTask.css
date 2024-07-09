@@ -13,7 +13,7 @@
 }
 
 .ct-content {
-    background: #000000;
+    background: #455a5ab4;
     color: #fff;
     padding: 20px;
     border-radius: 5px;
@@ -25,6 +25,7 @@
     flex-direction: column;
     gap: 0.5rem;
     z-index: 1000;
+    box-shadow: 0 0 4px 2px #000;
 }
 
 .ct-content h2 {
@@ -140,100 +141,6 @@ textarea {
     align-items: center;
 }
 
-.delete-icones {
-    color: #ff0000;
-    margin-left: 1rem;
-    font-size: 1.2rem;
-    padding: 5px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 0px 3px 1px #fff;
-    cursor: pointer;
-    transition: box-shadow 0.2s;
-}
-
-.edit-icones {
-    color: #9b01c2;
-    margin-right: 1rem;
-    font-size: 1.1rem;
-    padding: 5px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 0px 3px 1px #fff;
-    cursor: pointer;
-    transition: box-shadow 0.2s;
-}
-
-.delete-icones:hover,
-.edit-icones:hover {
-    box-shadow: none;
-}
-
-.attach-tm {
-    display: flex;
-}
-
-.attach-tm input {
-    border: none;
-    background-color: transparent;
-}
-
-.attach-upload-input {
-    border: none !important;
-    background-color: transparent !important;
-}
-
-.attach-tm button {
-    border: none;
-    background-color: transparent;
-    text-decoration: underline;
-    color: #afddf8;
-    transition: color 0.2s;
-}
-
-.attach-tm button:hover {
-    color: #4adeff;
-    background-color: transparent;
-}
-
-.attachments h3 {
-    margin: 0.2rem 0;
-}
-
-.attachments ul {
-    padding: 0 1rem;
-    margin: 0.8rem 0;
-    list-style: decimal;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-}
-
-.attachments li {
-    display: flex;
-    justify-content: space-between;
-}
-
-.attachments li a {
-    color: #00ffc8;
-    font-size: 0.8rem;
-    justify-self: end;
-}
-
-.attachments a:hover {
-    color: #0ab38e;
-}
-
-.delete-icony {
-    margin-right: 1rem;
-    color: #7873f5;
-    cursor: pointer;
-}
-
-.delete-icony:hover {
-    color: #403afa;
-}
-
 .close-btn {
     display: none;
 }
@@ -257,6 +164,10 @@ textarea {
 }
 
 @media screen and (max-width: 500px) {
+    .ct-overlay {
+        padding: 1rem 0;
+    }
+
     .ct-content {
        width: 91.1%;
        height: 100%;
@@ -264,6 +175,7 @@ textarea {
        padding: 1rem;
        padding-top: 2rem;
        border: none;
+       background-color: #45428f;
     }
 
     .ct-content h2 {

@@ -1,7 +1,7 @@
 .dashboard {
-    padding: 2rem;
+    padding: 2rem 6rem;
     font-family: "Josefin Sans", serif;
-    background-image: url('../assets/background7.jpg');
+    background-color: #091727;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -33,8 +33,10 @@
 }
 
 .lists-container h2 {
-    color: #fff;
-    padding: 5px 20px;
+    color: #ff9900;
+    padding: 5px;
+    margin: 0.5rem 0;
+    text-decoration: underline #fff;
 }
 
 .add-list-btn {
@@ -45,7 +47,7 @@
     color: #fff;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0px 0px 2px 4px #045a56;
+    box-shadow: 0px 0px 2px 2px #ff9900;
 }
 
 .add-list-btn:hover {
@@ -54,14 +56,20 @@
 }
 
 
+@media screen and (max-width: 700px) {
+    .dashboard {
+        padding: 1rem 20px;
+    }
+}
+
 @media screen and (max-width: 500px) {
     .dashboard {
         padding: 1rem 10px;
-        
     }
 
     .dashboard h1 {
         margin: 1rem 0;
+        margin-bottom: 0;
     }
 
     .lists-container {

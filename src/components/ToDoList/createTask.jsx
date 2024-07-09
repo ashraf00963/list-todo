@@ -7,7 +7,7 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
     const [name, setName] = useState('');
     const [note, setNote] = useState('');
     const [error, setError] = useState(null);
-    const [attachment, setAttachment] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const modalRef = useRef(null);
     const textareaRef = useRef(null);
@@ -55,51 +55,26 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
         };
     }, [isOpen, note]);
 
-    const handleFileChange = (e) => {
-        setAttachment(e.target.files[0]);
-    };
-
     const handleSubmit = async () => {
         if (!name) {
-            setError('Task name can`t be empty');
+            setError('Task name cannot be empty');
             return;
         }
-    
-        // Initialize the new task object
-        const newTask = { list_id: listId, name: name, status: 'Todo', note: note };
-    
-        try {
-            // Create the task first
-            const response = await dispatch(addTask(newTask)).unwrap();
-            const taskId = response.id;
+        setIsLoading(true);
+        setError(null);
 
-            // Handle attachment upload if there is an attachment
-            if (attachment) {
-                const formData = new FormData();
-                formData.append('file', attachment);
-                formData.append('task_id', taskId);
-    
-                const res = await fetch('https://list-todo.com/uploadAttachment.php', {
-                    method: 'POST',
-                    body: formData
-                });
-    
-                const result = await res.json();
-                if (result.message !== 'File uploaded successfully') {
-                    console.error('Attachment upload failed');
-                    setError(result.message || 'Failed to upload attachment');
-                    return;
-                }
-            }
-    
-            // If attachment upload is successful or no attachment, reset form
+        const newTask = { list_id: listId, name: name, status: 'To do', note: note };
+
+        try {
+            await dispatch(addTask(newTask)).unwrap();
             setName('');
             setNote('');
-            setAttachment(null);
             onClose();
         } catch (error) {
             console.error('Error creating task:', error);
             setError('Failed to create task');
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -128,12 +103,9 @@ const CreateTask = ({ isOpen, onClose, listId }) => {
                         placeholder="Notes Here"
                     />
                 </div>
-                <input
-                    type="file"
-                    className="attach-upload-input"
-                    onChange={handleFileChange}
-                />
-                <button onClick={handleSubmit}>Create</button>
+                <button onClick={handleSubmit} disabled={isLoading}>
+                    {isLoading ? 'Creating...' : 'Create'}
+                </button>
             </div>
         </div>
     );

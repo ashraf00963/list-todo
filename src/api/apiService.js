@@ -48,6 +48,10 @@ const apiService = {
     deleteAttachment: async (attachmentId) => {
         await axios.delete(`${BASE_URL}/deleteAttachment.php`, { data: attachmentId });
     },
+    updateListOrder: async (userId, order) => {
+        const response = await axios.put(`${BASE_URL}/updateListOrder.php`, { user_id: userId, order });
+        return response.data;
+    }
 };
 
 export default apiService;

@@ -1,0 +1,14 @@
+.success-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    font-family: "Josefin Sans", serif;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 999;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

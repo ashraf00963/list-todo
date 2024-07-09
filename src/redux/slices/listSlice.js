@@ -44,10 +44,34 @@ const listSlice = createSlice({
             state.error = action.payload;
             state.loading = false;
         },
+        updateListOrderStart: (state) => {
+            state.loading = true;
+        },
+        updateListOrderSuccess: (state, action) => {
+            state.lists = action.payload;
+            state.loading = false;
+        },
+        updateListOrderFailure: (state, action) => {
+            state.error = action.payload;
+            state.loading = false;
+        }
     },
 });
 
-export const { fetchListsStart, fetchListsSuccess, fetchListsFailure, addListStart, addListSuccess, addListFailure, deleteListStart, deleteListSuccess, deleteListFailure } = listSlice.actions;
+export const {
+    fetchListsStart,
+    fetchListsSuccess,
+    fetchListsFailure,
+    addListStart,
+    addListSuccess,
+    addListFailure,
+    deleteListStart,
+    deleteListSuccess,
+    deleteListFailure,
+    updateListOrderStart,
+    updateListOrderSuccess,
+    updateListOrderFailure
+} = listSlice.actions;
 
 export const fetchLists = (userId) => async (dispatch) => {
     dispatch(fetchListsStart());
@@ -78,5 +102,15 @@ export const deleteListAsync = (listId) => async (dispatch) => {
         dispatch(deleteListFailure(error.message));
     }
 }
+
+export const updateListOrder = (userId, order) => async (dispatch) => {
+    dispatch(updateListOrderStart());
+    try {
+        const updatedLists = await apiService.updateListOrder(userId, order);
+        dispatch(updateListOrderSuccess(updatedLists));
+    } catch (error) {
+        dispatch(updateListOrderFailure(error.message));
+    }
+};
 
 export default listSlice.reducer;

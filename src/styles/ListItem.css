@@ -1,6 +1,6 @@
 .list-item {
-    padding: 10px;
-    margin: 1rem 0;
+    padding: 15px 10px;
+    margin: 1rem;
     background-color: #091727;
     border-radius: px;
     color: #fff;
@@ -10,29 +10,48 @@
     justify-content: space-between;
     align-items: center;
     box-shadow: 0px 0px 2px 2px #0ba19a;
+    transition: all 0.3s;
 }
 
 .list-item:hover {
     background-color: #fff;
-    color: #000;
+    color: #ff9900;
+    box-shadow: 0px 0px 4px 2px #000;
 }
 
 .delete-icon {
-    display: none;
-    color: red;
-    margin-left: auto;
+    color: #091727;
     z-index: 1;
+    margin-left: auto;
 }
 
 .list-item:hover .delete-icon {
-    display: block;
+    color: #ff9900;
 }
 
-@media screen and (max-width: 500px) {
+.drag-handle {
+    margin-left: 20px;
+    display: flex;
+    cursor: grab;
+}
+
+.drag-handle:active {
+  color: #ff9900;
+    cursor: grabbing;
+}
+  
+  
+
+@media screen and (max-width: 600px) {
     .list-item {
         padding: 15px;
     }
+
     .delete-icon {
-        display: block;
+        color: #ff9900;
+    }
+    
+    .drag-handle {
+      display: none;
     }
 }
