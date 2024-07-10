@@ -1,7 +1,8 @@
 .list-item {
-    padding: 15px 10px;
+    font-size: 1.2rem;
+    padding: 12px 10px;
     margin: 1rem;
-    background-color: #091727;
+    background-color: #013220;
     border-radius: px;
     color: #fff;
     cursor: pointer;
@@ -9,18 +10,26 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0px 0px 2px 2px #0ba19a;
     transition: all 0.3s;
+    animation: borderColor2 4s linear infinite;
+    border-width: 2px;
+    border-style: solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(45deg, #013220, #025334, #4A7856, #1F7A56, #013220, #025334);
 }
 
 .list-item:hover {
     background-color: #fff;
     color: #ff9900;
-    box-shadow: 0px 0px 4px 2px #000;
+    animation: borderColorGold 4s linear infinite;
+    border-width: 2px;
+    border-style: solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(45deg, #D4AF37, #ff9900, #D4AF37, #ffea00, #D4AF37, #FFFFFF);
 }
 
 .delete-icon {
-    color: #091727;
+    color: #013220;
     z-index: 1;
     margin-left: auto;
 }
@@ -40,7 +49,41 @@
     cursor: grabbing;
 }
   
-  
+@keyframes borderColor2 {
+    0% {
+        border-image-source: linear-gradient(45deg, #013220, #025334, #4A7856, #1F7A56, #013220, #025334);
+    }
+    25% {
+        border-image-source: linear-gradient(135deg, #4A7856, #1F7A56, #013220, #025334, #013220);
+    }
+    50% {
+        border-image-source: linear-gradient(225deg, #1F7A56, #013220, #025334, #4A7856, #013220);
+    }
+    75% {
+        border-image-source: linear-gradient(315deg, #025334, #4A7856, #1F7A56, #013220, #025334);
+    }
+    100% {
+        border-image-source: linear-gradient(45deg, #013220, #025334, #4A7856, #1F7A56, #013220, #025334);
+    }
+}
+
+@keyframes borderColorGold {
+    0% {
+        border-image-source: linear-gradient(45deg, #D4AF37, #ff9900, #D4AF37, #ffea00, #D4AF37, #FFFFFF);
+    }
+    25% {
+        border-image-source: linear-gradient(135deg, #ff9900, #D4AF37, #ffea00, #D4AF37, #FFFFFF);
+    }
+    50% {
+        border-image-source: linear-gradient(225deg, #D4AF37, #ff9900, #D4AF37, #ffea00, #D4AF37);
+    }
+    75% {
+        border-image-source: linear-gradient(315deg, #ff9900, #D4AF37, #ffea00, #D4AF37, #FFFFFF);
+    }
+    100% {
+        border-image-source: linear-gradient(45deg, #D4AF37, #ff9900, #D4AF37, #ffea00, #D4AF37, #FFFFFF);
+    }
+}
 
 @media screen and (max-width: 600px) {
     .list-item {

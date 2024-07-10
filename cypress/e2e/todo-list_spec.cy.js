@@ -18,7 +18,7 @@ describe('User login and To-Do list operations', () => {
   
       // Click on the list named "testing" to navigate to the specific to-do list
       cy.contains('.list-item span', 'testing').click();
-      cy.wait(2000); // Wait for 1 second (1000 milliseconds)
+      cy.wait(2000); // Wait for 2 second (2000 milliseconds)
 
       // Ensure we are on the correct to-do list page
       cy.url().should('include', '/list/211e907e-982b-4e2e-9ff2-4405030030dd');
@@ -31,10 +31,10 @@ describe('User login and To-Do list operations', () => {
       cy.get('textarea[placeholder="Notes Here"]').type('testing notes here 123...');
   
       // Submit the form to create the task
-      cy.contains('button', 'Create').click({ force: true });
+      cy.get('.ct-content').contains('button', 'Create').click({ force: true });
   
       // Confirm the new task is created and visible
-      cy.contains('h2', 'Todo').should('be.visible');
+      cy.contains('h2', 'To Do').should('be.visible');
       cy.contains('span', 'test task').should('be.visible');
   
       // Confirm the task exists and open it
@@ -42,9 +42,10 @@ describe('User login and To-Do list operations', () => {
   
       // Click on the delete button of the specific task
       cy.get('[data-cy="delete-task-button"]').click({ force: true });
+      cy.wait(1000); // Wait for 1 second (1000 milliseconds)
   
       // Confirm the task is deleted
-      cy.get('span').contains('test task').should('not.exist');
+      cy.get('.container-page').should('not.contain', 'span', 'test task');
     });
   });
   

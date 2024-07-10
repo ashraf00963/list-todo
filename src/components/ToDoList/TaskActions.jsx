@@ -7,6 +7,7 @@ const TaskActions = ({ editMode, handleDeleteClick, handleEditClick, handleUpdat
             <MdDelete 
                 onClick={handleDeleteClick} 
                 className='delete-icones' 
+                data-cy='delete-task-button'
                 style={{ color: attachments.length > 0 ? 'gray' : 'red', cursor: attachments.length > 0 ? 'not-allowed' : 'pointer' }} 
             />
             {editMode ? (

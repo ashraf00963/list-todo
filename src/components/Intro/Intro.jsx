@@ -3,6 +3,7 @@ import Login from "../Auth/Login";
 import Register from "../Auth/Register";
 import SuccessMessage from "../utils/SuccessMessage";
 import '../../styles/Intro.css';
+import logo from '../../assets/logo.png';
 
 function Intro() {
     const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
@@ -24,19 +25,20 @@ function Intro() {
         <div className='intro-page'>
             {successMessage && <SuccessMessage message={successMessage} clearMessage={() => setSuccessMessage('')} />}
             <div className='intro-page-header'>
-                <h1>To-Do List</h1>
+                <img src={logo} style={{ width: '200px'}} />
                 <div className='intro-header-btn'>
                     <button className='intro-login-btn' onClick={handleLoginPopup}>Login</button>
                     <button className='intro-register-btn' onClick={handleRegisterPopup}>Join Now</button>
                 </div>
             </div>
             <div className='intro-content'>
-                <h2 className='intro-h2'>Are You Ready To-Do?</h2>
+                <h2 className='intro-h2'>Are You Ready <span className="gold-touch">To-Do</span>?</h2>
+                <p className="intro-sent">Unlock your productivity potential with our seamless task management tools.</p>
                 <p className='intro-p'>Start now:</p>
                 <ul className='intro-content-list'>
-                    <li>Create as many lists as you want.</li>
-                    <li>Lists can contain as many tasks as needed.</li>
-                    <li>Free Of Charge, Join us now.</li>
+                    <li>Effortlessly Create and Manage Unlimited Lists and Tasks.</li>
+                    <li>Organize Your Projects Your Way.</li>
+                    <li><span className="gold-touch" onClick={() => setIsRegisterPopupOpen(true)} style={{ cursor: 'pointer'}}>Join Us Now</span> and Boost Your Productivity Today!</li>
                 </ul>
                 <Login 
                     isOpen={isLoginPopupOpen}

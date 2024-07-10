@@ -15,6 +15,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@reduxjs/toolkit": "^2.2.6",
     "axios": "^1.7.2",
+    "cypress-real-events": "^1.13.0",
     "password-strength": "^0.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -26,6 +27,7 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.2.5",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
